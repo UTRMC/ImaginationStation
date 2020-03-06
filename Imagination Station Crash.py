@@ -6,6 +6,9 @@ import sys
 import RPi.GPIO as GPIO  # Pin setup for Entire Pi
 import time
 
+# Disable Warnings
+GPIO.setwarnings(False)
+
 # pin setup
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(13, GPIO.OUT)
@@ -23,55 +26,69 @@ FL.start(100)
 RR.start(100)
 RL.start(100)
 
+x = True
+
 
 # Define functions for kids to use
 
 def forward(self):
-    FR.ChangeDutyCycle(6.5)
-    FL.ChangeDutyCycle(8)
-    RR.ChangeDutyCycle(6.5)
-    RL.ChangeDutyCycle(8)
-    time.sleep(self)
-    FR.ChangeDutyCycle(100)
-    FL.ChangeDutyCycle(100)
-    RR.ChangeDutyCycle(100)
-    RL.ChangeDutyCycle(100)
+    if x == True:
+        return
+    else:
+        FR.ChangeDutyCycle(6.5)
+        FL.ChangeDutyCycle(8)
+        RR.ChangeDutyCycle(6.5)
+        RL.ChangeDutyCycle(8)
+        time.sleep(self)
+        FR.ChangeDutyCycle(100)
+        FL.ChangeDutyCycle(100)
+        RR.ChangeDutyCycle(100)
+        RL.ChangeDutyCycle(100)
 
 
 def reverse(self):
-    FR.ChangeDutyCycle(8)
-    FL.ChangeDutyCycle(6.5)
-    RR.ChangeDutyCycle(8)
-    RL.ChangeDutyCycle(6.5)
-    time.sleep(self)
-    FR.ChangeDutyCycle(100)
-    FL.ChangeDutyCycle(100)
-    RR.ChangeDutyCycle(100)
-    RL.ChangeDutyCycle(100)
+    if x == True:
+        return
+    else:
+        FR.ChangeDutyCycle(8)
+        FL.ChangeDutyCycle(6.5)
+        RR.ChangeDutyCycle(8)
+        RL.ChangeDutyCycle(6.5)
+        time.sleep(self)
+        FR.ChangeDutyCycle(100)
+        FL.ChangeDutyCycle(100)
+        RR.ChangeDutyCycle(100)
+        RL.ChangeDutyCycle(100)
 
 
 def turn_right():
-    FR.ChangeDutyCycle(10)
-    FL.ChangeDutyCycle(10)
-    RR.ChangeDutyCycle(10)
-    RL.ChangeDutyCycle(10)
-    time.sleep(.51)
-    FR.ChangeDutyCycle(100)
-    FL.ChangeDutyCycle(100)
-    RR.ChangeDutyCycle(100)
-    RL.ChangeDutyCycle(100)
+    if x == True:
+        return
+    else:
+        FR.ChangeDutyCycle(10)
+        FL.ChangeDutyCycle(10)
+        RR.ChangeDutyCycle(10)
+        RL.ChangeDutyCycle(10)
+        time.sleep(.51)
+        FR.ChangeDutyCycle(100)
+        FL.ChangeDutyCycle(100)
+        RR.ChangeDutyCycle(100)
+        RL.ChangeDutyCycle(100)
 
 
 def turn_left():
-    FR.ChangeDutyCycle(5)
-    FL.ChangeDutyCycle(5)
-    RR.ChangeDutyCycle(5)
-    RL.ChangeDutyCycle(5)
-    time.sleep(.51)
-    FR.ChangeDutyCycle(100)
-    FL.ChangeDutyCycle(100)
-    RR.ChangeDutyCycle(100)
-    RL.ChangeDutyCycle(100)
+    if x == True:
+        return
+    else:
+        FR.ChangeDutyCycle(5)
+        FL.ChangeDutyCycle(5)
+        RR.ChangeDutyCycle(5)
+        RL.ChangeDutyCycle(5)
+        time.sleep(.51)
+        FR.ChangeDutyCycle(100)
+        FL.ChangeDutyCycle(100)
+        RR.ChangeDutyCycle(100)
+        RL.ChangeDutyCycle(100)
 
 
 def stop():
@@ -84,12 +101,10 @@ def stop():
 def can_compile(self):
     try:
         eval(self)
-        return
     except:
         print("System Crash! Restarting...")
         time.sleep(5)
         os.execl(sys.executable, sys.executable, *sys.argv)
-        return
 
 
 # Print instructions
@@ -107,12 +122,20 @@ while command != "Start":  # While the command is not Start continue taking comm
     command = input()
     instructions.append(command)
 
+# Remove Start
+instructions.pop()
+
 # Check to see if the code compiles
 for x in instructions:
     can_compile(x)
+
+x = False
 
 # Read the instructions given and run the functions
 print("Your output is:")
 for x in instructions:
     print(x)
     eval(x)
+
+# Restart program
+os.execl(sys.executable, sys.executable, *sys.argv)
